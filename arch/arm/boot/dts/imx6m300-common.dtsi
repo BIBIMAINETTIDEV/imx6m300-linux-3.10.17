@@ -6,9 +6,9 @@
  * published by the Free Software Foundation.
  */
 
-//
-//	EPDC (Electronic Paper Display Controller) - no available on M300
-//
+/*
+ *	EPDC (Electronic Paper Display Controller) - not available on M300
+ *
 &epdc {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_epdc_0>;
@@ -17,6 +17,7 @@
 	DISPLAY-supply = <&DISPLAY_reg>;
 	status = "disabled";
 };
+ */
 
 &ldb {
 	ipu_id = <0>;

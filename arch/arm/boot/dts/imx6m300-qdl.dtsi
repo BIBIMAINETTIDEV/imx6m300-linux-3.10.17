@@ -17,7 +17,7 @@
 / {
 	aliases {
 		flexcan0 = &flexcan1;
-		flexcan1 = &flexcan2;
+		//flexcan1 = &flexcan2;
 		gpio0 = &gpio1;
 		gpio1 = &gpio2;
 		gpio2 = &gpio3;
@@ -106,7 +106,7 @@
 		};
 		/*
 		 *	General Purpose Media Interface
-		 */
+		 *
 		gpmi: gpmi-nand@00112000 {
 			compatible = "fsl,imx6q-gpmi-nand";
 			#address-cells = <1>;
@@ -123,7 +123,7 @@
 			dma-names = "rx-tx";
 			status = "disabled";
 		};
-
+		 */
 		timer@00a00600 {
 			compatible = "arm,cortex-a9-twd-timer";
 			reg = <0x00a00600 0x20>;
@@ -163,6 +163,7 @@
 			compatible = "arm,cortex-a9-pmu";
 			interrupts = <0 94 0x04>;
 		};
+
 
 		aips-bus@02000000 { /* AIPS1 */
 			compatible = "fsl,aips-bus", "simple-bus";
@@ -217,7 +218,7 @@
 				};
 				/*
 				 *	ECSPI2, 3 & 4 remain disabled on M300
-				 */
+				 *
 				ecspi2: ecspi@0200c000 {
 					#address-cells = <1>;
 					#size-cells = <0>;
@@ -250,6 +251,7 @@
 					clock-names = "ipg", "per";
 					status = "disabled";
 				};
+				 */
 				/*
 				 * M300 implements 3 UARTs (iMX6 UARTs 1, 4 and 5)
 				 */
@@ -265,7 +267,8 @@
 				};
 				/*
 				 * Enhanced Serial Audio Interface (ESAI). 
-				 */
+				 * Not implemented on M300
+				 *
 				esai: esai@02024000 {
 					compatible = "fsl,imx6q-esai";
 					reg = <0x02024000 0x4000>;
@@ -276,6 +279,8 @@
 					fsl,flags = <1>;
 					status = "disabled";
 				};
+				 */
+				 
 				/*
 				 * Synchronous Serial Interface (SSI) aka I2S
 				 */
@@ -392,6 +397,9 @@
 				clock-names = "ipg", "per";
 			};
 
+			/*
+			 * PWM3 is not available on M300
+			 *
 			pwm3: pwm@02088000 {
 				#pwm-cells = <2>;
 				compatible = "fsl,imx6q-pwm", "fsl,imx27-pwm";
@@ -401,7 +409,11 @@
 				clock-names = "ipg", "per";
 				status = "disabled";
 			};
+			 */
 
+			/*
+			 * PWM4 is not available on M300
+			 *
 			pwm4: pwm@0208c000 {
 				#pwm-cells = <2>;
 				compatible = "fsl,imx6q-pwm", "fsl,imx27-pwm";
@@ -411,6 +423,7 @@
 				clock-names = "ipg", "per";
 				status = "disabled";
 			};
+			 */
 			/*
 			 * Flexible Controller Area Network (FlexCAN) - Freescale's implementation of CAN
 			 */
@@ -425,7 +438,7 @@
 			};
 			/*
 			 * FlexCAN2 remains disabled on M300
-			 */
+			 *
 			flexcan2: can@02094000 {
 				compatible = "fsl,imx6q-flexcan";
 				reg = <0x02094000 0x4000>;
@@ -435,6 +448,7 @@
 				gpr = <&gpr>;
 				status = "disabled";
 			};
+			 */
 			/*
 			 * General Purpose Timer (GPT)
 			 */
@@ -848,7 +862,7 @@
 			};
 			/*
 			 * USB2 is not available on the M300
-			 */
+			 *
 			usbh2: usb@02184400 {
 				compatible = "fsl,imx6q-usb", "fsl,imx27-usb";
 				reg = <0x02184400 0x200>;
@@ -860,9 +874,10 @@
 				fsl,anatop = <&anatop>;
 				status = "disabled";
 			};
+			 */
 			/*
 			 * USB3 is not available on the M300
-			 */
+			 *
 			usbh3: usb@02184600 {
 				compatible = "fsl,imx6q-usb", "fsl,imx27-usb";
 				reg = <0x02184600 0x200>;
@@ -874,6 +889,7 @@
 				fsl,anatop = <&anatop>;
 				status = "disabled";
 			};
+			 */
 
 			usbmisc: usbmisc: usbmisc@02184800 {
 				#index-cells = <1>;
@@ -912,7 +928,7 @@
 			 * to off-module SD4
 			 *
 			 * USDHC1 is not available on the M300
-			 */
+			 *
 			usdhc1: usdhc@02190000 {
 				compatible = "fsl,imx6q-usdhc";
 				reg = <0x02190000 0x4000>;
@@ -922,6 +938,7 @@
 				bus-width = <4>;
 				status = "disabled";
 			};
+			 */
 			/*
 			 * USDHC2 - boot device for M300
 			 */
@@ -936,7 +953,7 @@
 			};
 			/*
 			 * USDHC3 is not available on the M300
-			 */
+			 *
 			usdhc3: usdhc@02198000 {
 				compatible = "fsl,imx6q-usdhc";
 				reg = <0x02198000 0x4000>;
@@ -946,6 +963,7 @@
 				bus-width = <4>;
 				status = "disabled";
 			};
+			 */
 			/*
 			 * USDHC4 is off-module non-volatile storage for M300
 			 */
@@ -955,7 +973,7 @@
 				interrupts = <0 25 0x04>;
 				clocks = <&clks 166>, <&clks 166>, <&clks 166>;
 				clock-names = "ipg", "ahb", "per";
-				bus-width = <4>;
+				bus-width = <8>;
 				status = "disabled";
 			};
 			/*
@@ -1019,13 +1037,14 @@
 			 * External Interface Module (EIM or WEIM) - control for
 			 * external memory such as NOR FLASH (Synchronous) or SRAM
 			 * type devices (Asynchronous) - the M300 has neither.
-			 */
+			 *
 			weim: weim@021b8000 {
 				compatible = "fsl,imx6q-weim";
 				reg = <0x021b8000 0x4000>;
 				interrupts = <0 14 0x04>;
 				clocks = <&clks 196>;
 			};
+			 */
 			/*
 			 * On Chip One-Time Programmable controller (OCOTP) (i.e. fuses)
 			 */
@@ -1165,11 +1184,11 @@
 		 */
 		pinctrl_audmux_1: audmux-1 {
 			fsl,pins = <
-				MX6QDL_PAD_CSI0_DAT7__AUD3_RXD   0x130b0
+				MX6QDL_PAD_CSI0_DAT10__AUD3_RXC  0x130b0
 				MX6QDL_PAD_CSI0_DAT4__AUD3_TXC   0x130b0
 				MX6QDL_PAD_CSI0_DAT5__AUD3_TXD   0x110b0
 				MX6QDL_PAD_CSI0_DAT6__AUD3_TXFS  0x130b0
-				MX6QDL_PAD_CSI0_DAT10__AUD3_RXC  0x130b0
+				MX6QDL_PAD_CSI0_DAT7__AUD3_RXD	 0x130b0
 				MX6QDL_PAD_CSI0_DAT11__AUD3_RXFS 0x130b0
 				MX6QDL_PAD_GPIO_18__ASRC_EXT_CLK 0x130b0
 			>;
@@ -1177,23 +1196,26 @@
 	};
 
 	ecspi1 {
+	    /*
 		pinctrl_ecspi1_cs_1: ecspi1_cs_grp-1 {
 			fsl,pins = <
 				MX6QDL_PAD_EIM_D19__GPIO3_IO19 0x80000000
 			>;
 		};
+		 */
 
 		pinctrl_ecspi1_1: ecspi1grp-1 {
 			fsl,pins = <
-				MX6QDL_PAD_EIM_D17__ECSPI1_MISO 0x100b1
-				MX6QDL_PAD_EIM_D18__ECSPI1_MOSI 0x100b1
 				MX6QDL_PAD_EIM_D16__ECSPI1_SCLK 0x100b1
 				MX6QDL_PAD_GPIO_19__ECSPI1_RDY  0x100b1
+				MX6QDL_PAD_EIM_D18__ECSPI1_MOSI 0x100b1
+				MX6QDL_PAD_EIM_D17__ECSPI1_MISO 0x100b1
 				MX6QDL_PAD_EIM_D19__ECSPI1_SS1  0x100b1
 				MX6QDL_PAD_EIM_D24__ECSPI1_SS2  0x100b1
 			>;
 		};
-
+		
+		/*
 		pinctrl_ecspi1_2: ecspi1grp-2 {
 			fsl,pins = <
 				MX6QDL_PAD_KEY_COL1__ECSPI1_MISO 0x100b1
@@ -1201,8 +1223,12 @@
 				MX6QDL_PAD_KEY_COL0__ECSPI1_SCLK 0x100b1
 			>;
 		};
+		 */
 	};
 
+	/*
+	 * ESCPI 3 no used on M300
+	 *
 	ecspi3 {
 		pinctrl_ecspi3_1: ecspi3grp-1 {
 			fsl,pins = <
@@ -1212,6 +1238,7 @@
 			>;
 		};
 	};
+	 */
 
 	enet {
 		pinctrl_enet_1: enetgrp-1 {
@@ -1251,6 +1278,10 @@
 			>;
 		};
 		*/
+		
+		/*
+		 * ENET 2 and 3 are not implemented on M300
+		 *
 		pinctrl_enet_2: enetgrp-2 {
 			fsl,pins = <
 				MX6QDL_PAD_KEY_COL1__ENET_MDIO        0x1b0b0
@@ -1292,8 +1323,10 @@
 				MX6QDL_PAD_ENET_TX_EN__ENET_TX_EN     0x1b0b0
 			>;
 		};
+		 */
 	};
 
+	/*
 	esai {
 		pinctrl_esai_1: esaigrp-1 {
 			fsl,pins = <
@@ -1324,6 +1357,7 @@
 			>;
 		};
 	};
+	 */
 
 	flexcan1 {
 		pinctrl_flexcan1_1: flexcan1grp-1 {
@@ -1333,7 +1367,10 @@
 			>;
 		};
 	};
-
+	
+	/*
+	 * FLAXCAN 2 is not used in M300
+	 *
 	flexcan2 {
 		pinctrl_flexcan2_1: flexcan2grp-1 {
 			fsl,pins = <
@@ -1342,7 +1379,9 @@
 			>;
 		};
 	};
-
+	 */
+	
+	/*
 	gpmi-nand {
 		pinctrl_gpmi_nand_1: gpmi-nand-1 {
 			fsl,pins = <
@@ -1366,7 +1405,9 @@
 			>;
 		};
 	};
-
+	 */
+	 
+	/* 
 	hdmi_hdcp {
 		pinctrl_hdmi_hdcp_1: hdmihdcpgrp-1 {
 			fsl,pins = <
@@ -1389,7 +1430,9 @@
 			>;
 		};
 	};
+	 */
 
+	/*
 	hdmi_cec {
 		pinctrl_hdmi_cec_1: hdmicecgrp-1 {
 			fsl,pins = <
@@ -1403,23 +1446,29 @@
 			>;
 		};
 	};
+	 */
 
 	i2c1 {
 		pinctrl_i2c1_1: i2c1grp-1 {
 			fsl,pins = <
-				MX6QDL_PAD_EIM_D21__I2C1_SCL 0x4001b8b1
-				MX6QDL_PAD_EIM_D28__I2C1_SDA 0x4001b8b1
+				MX6QDL_PAD_EIM_D28__I2C1_SDA	0x4001b8b1
+				MX6QDL_PAD_CSI0_DAT9__I2C1_SCL	0x4001B8B1
+				//MX6QDL_PAD_EIM_D28__I2C1_SDA 0x4001b8b1
 			>;
 		};
-
+		/*
 		pinctrl_i2c1_2: i2c1grp-2 {
 			fsl,pins = <
 				MX6QDL_PAD_CSI0_DAT8__I2C1_SDA 0x4001b8b1
 				MX6QDL_PAD_CSI0_DAT9__I2C1_SCL 0x4001b8b1
 			>;
 		};
+		 */
 	};
 
+	/*
+	 * I2C 2 Not used in M300
+	 *
 	i2c2 {
 		pinctrl_i2c2_1: i2c2grp-1 {
 			fsl,pins = <
@@ -1442,15 +1491,16 @@
 			>;
 		};
 	};
+	 */
 
 	i2c3 {
 		pinctrl_i2c3_1: i2c3grp-1 {
 			fsl,pins = <
-				MX6QDL_PAD_EIM_D17__I2C3_SCL 0x4001b8b1
-				MX6QDL_PAD_EIM_D18__I2C3_SDA 0x4001b8b1
+				MX6QDL_PAD_GPIO_5__I2C3_SCL 0x4001b8b1
+				MX6QDL_PAD_GPIO_6__I2C3_SDA 0x4001b8b1
 			>;
 		};
-
+		/*
 		pinctrl_i2c3_2: i2c3grp-2 {
 			fsl,pins = <
 				MX6QDL_PAD_GPIO_3__I2C3_SCL 0x4001b8b1
@@ -1471,16 +1521,20 @@
 				MX6QDL_PAD_EIM_D18__I2C3_SDA 0x4001b8b1
 			>;
 		};
+		 */
 	};
 
+	i2c4 {
+		pinctrl_i2c4_1: i2c4grp-1 {
+			fsl,pins = <
+				MX6QDL_PAD_NANDF_CS3__I2C4_SDA	0x4001B8B1
+				MX6QDL_PAD_NANDF_WP_B__I2C4_SCL	0x4001B8B1
+			>;
+		};
+	};
 	ipu1 {
 		pinctrl_ipu1_1: ipu1grp-1 {
 			fsl,pins = <
-				MX6QDL_PAD_DI0_DISP_CLK__IPU1_DI0_DISP_CLK 0x10
-				MX6QDL_PAD_DI0_PIN15__IPU1_DI0_PIN15       0x10
-				MX6QDL_PAD_DI0_PIN2__IPU1_DI0_PIN02        0x10
-				MX6QDL_PAD_DI0_PIN3__IPU1_DI0_PIN03        0x10
-				MX6QDL_PAD_DI0_PIN4__IPU1_DI0_PIN04        0x80000000
 				MX6QDL_PAD_DISP0_DAT0__IPU1_DISP0_DATA00   0x10
 				MX6QDL_PAD_DISP0_DAT1__IPU1_DISP0_DATA01   0x10
 				MX6QDL_PAD_DISP0_DAT2__IPU1_DISP0_DATA02   0x10
@@ -1505,10 +1559,18 @@
 				MX6QDL_PAD_DISP0_DAT21__IPU1_DISP0_DATA21  0x10
 				MX6QDL_PAD_DISP0_DAT22__IPU1_DISP0_DATA22  0x10
 				MX6QDL_PAD_DISP0_DAT23__IPU1_DISP0_DATA23  0x10
+				MX6QDL_PAD_DI0_PIN2__IPU1_DI0_PIN02        0x10			// LCD HSync
+				MX6QDL_PAD_DI0_PIN3__IPU1_DI0_PIN03        0x10			// LCD VSync
+				MX6QDL_PAD_DI0_PIN4__IPU1_DI0_PIN04        0x80000000	// LCD Contrast
+				MX6QDL_PAD_DI0_PIN15__IPU1_DI0_PIN15       0x10			// LCD DEN
+				MX6QDL_PAD_DI0_DISP_CLK__IPU1_DI0_DISP_CLK 0x10
 			>;
 		};
-
-		pinctrl_ipu1_2: ipu1grp-2 { /* parallel camera */
+		
+		/*
+		 *	IPU1 is only used for parallel RGB on M300
+		 *
+		pinctrl_ipu1_2: ipu1grp-2 { // parallel camera
 			fsl,pins = <
 				MX6QDL_PAD_CSI0_DAT12__IPU1_CSI0_DATA12    0x80000000
 				MX6QDL_PAD_CSI0_DAT13__IPU1_CSI0_DATA13    0x80000000
@@ -1524,6 +1586,7 @@
 				MX6QDL_PAD_CSI0_VSYNC__IPU1_CSI0_VSYNC     0x80000000
 			>;
 		};
+		 */
 
 		pinctrl_ipu1_3: ipu1grp-3 { /* parallel port 16-bit */
 			fsl,pins = <
@@ -1558,7 +1621,8 @@
 				MX6QDL_PAD_GPIO_2__MLB_DATA 0x71
 			>;
 		};
-
+		
+		/*
 		pinctrl_mlb_2: mlbgrp-2 {
 			fsl,pins = <
 				MX6QDL_PAD_ENET_TXD1__MLB_CLK 0x80000000
@@ -1566,6 +1630,7 @@
 				MX6QDL_PAD_GPIO_2__MLB_DATA   0x80000000
 			>;
 		};
+		 */
 	};
 
 	pwm1 {
@@ -1576,6 +1641,7 @@
 		};
 	};
 
+	/*
 	pwm3 {
 		pinctrl_pwm3_1: pwm3grp-1 {
 			fsl,pins = <
@@ -1583,6 +1649,7 @@
 			>;
 		};
 	};
+	 */
 
 	spdif {
 		pinctrl_spdif_1: spdifgrp-1 {
@@ -1602,18 +1669,25 @@
 	uart1 {
 		pinctrl_uart1_1: uart1grp-1 {
 			fsl,pins = <
-				MX6QDL_PAD_CSI0_DAT10__UART1_TX_DATA 0x1b0b1
-				MX6QDL_PAD_CSI0_DAT11__UART1_RX_DATA 0x1b0b1
+				MX6QDL_PAD_SD3_DAT7__UART1_TX_DATA	0x1b0b1
+				MX6QDL_PAD_SD3_DAT6__UART1_RX_DATA	0x1b0b1
+				MX6QDL_PAD_SD3_DAT0__UART1_CTS_B	0x1b0b1
+				MX6QDL_PAD_SD3_DAT1__UART1_RTS_B	0x1b0b1
 			>;
 		};
+		/*
 		pinctrl_uart1_2: uart1grp-2 {
 			fsl,pins = <
 				MX6QDL_PAD_SD3_DAT7__UART1_TX_DATA 0x1b0b1
 				MX6QDL_PAD_SD3_DAT6__UART1_RX_DATA 0x1b0b1
 			>;
 		};
+		 */
 	};
-
+	
+	/*
+	 * UART2 not used in M300
+	 *
 	uart2 {
 		pinctrl_uart2_1: uart2grp-1 {
 			fsl,pins = <
@@ -1622,7 +1696,7 @@
 			>;
 		};
 
-		pinctrl_uart2_2: uart2grp-2 { /* DTE mode */
+		pinctrl_uart2_2: uart2grp-2 { // DTE mode
 			fsl,pins = <
 				MX6QDL_PAD_EIM_D26__UART2_RX_DATA   0x1b0b1
 				MX6QDL_PAD_EIM_D27__UART2_TX_DATA   0x1b0b1
@@ -1631,7 +1705,11 @@
 			>;
 		};
 	};
-
+	*/
+	
+	/*
+	 * UART3 not used in M300
+	 *
 	uart3 {
 		pinctrl_uart3_1: uart3grp-1 {
 			fsl,pins = <
@@ -1642,14 +1720,14 @@
 			>;
 		};
 	};
-
+	 */
 	uart4 {
 		pinctrl_uart4_1: uart4grp-1 {
 			fsl,pins = <
-				MX6QDL_PAD_KEY_COL0__UART4_TX_DATA 0x1b0b1
-				MX6QDL_PAD_KEY_ROW0__UART4_RX_DATA 0x1b0b1
-				MX6QDL_PAD_CSI0_DAT17__UART4_CTS_B 0x1b0b1
-				MX6QDL_PAD_CSI0_DAT16__UART4_RTS_B 0x1b0b1
+				MX6QDL_PAD_CSI0_DAT12__UART4_TX_DATA 0x1b0b1
+				MX6QDL_PAD_CSI0_DAT13__UART4_RX_DATA 0x1b0b1
+				MX6QDL_PAD_CSI0_DAT17__UART4_CTS_B   0x1b0b1
+				MX6QDL_PAD_CSI0_DAT16__UART4_RTS_B   0x1b0b1
 			>;
 		};
 	};
@@ -1664,21 +1742,36 @@
 			>;
 		};
 	};
+	
+	usbh1 {
+		pinctrl_usbh1_1: usbh1grp-1 {
+			fsl,pins = <
+				MX6QDL_PAD_EIM_D30__USB_H1_OC	0x17059
+				MX6QDL_PAD_EIM_D31__USB_H1_PWR	0x17059
+			>;
+		};
+	};
 
 	usbotg {
 		pinctrl_usbotg_1: usbotggrp-1 {
 			fsl,pins = <
-				MX6QDL_PAD_GPIO_1__USB_OTG_ID 0x17059
+				MX6QDL_PAD_EIM_D21__USB_OTG_OC  0x17059
+				MX6QDL_PAD_EIM_D22__USB_OTG_PWR 0x17059
+				MX6QDL_PAD_GPIO_1__USB_OTG_ID   0x17059
 			>;
 		};
-
+		/*
 		pinctrl_usbotg_2: usbotggrp-2 {
 			fsl,pins = <
 				MX6QDL_PAD_ENET_RX_ER__USB_OTG_ID 0x17059
 			>;
 		};
+		 */
 	};
 
+	/*
+	 * USB H2 not used in M300
+	 *
 	usbh2 {
 		pinctrl_usbh2_1: usbh2grp-1 {
 			fsl,pins = <
@@ -1693,7 +1786,11 @@
 			>;
 		};
 	};
-
+	 */
+	
+	/*
+	 * USB H3 not used in M300
+	 *
 	usbh3 {
 		pinctrl_usbh3_1: usbh3grp-1 {
 			fsl,pins = <
@@ -1708,7 +1805,10 @@
 			>;
 		};
 	};
-
+	 */
+	/*
+	 * USDHC1 - Not used in M300
+	 *
 	usdhc1 {
 		pinctrl_usdhc1_1: usdhc1grp-1 {
 			fsl,pins = <
@@ -1721,23 +1821,37 @@
 			>;
 		};
 	};
-
+	 */
+	
+	/*
+	 * USDHC2 - Used in 4-bit mode as boot device in M300
+	 *
+	 * Control Value (0x17059):
+	 *		0x10000	(1 << 16) - Hys(teresis) - Schmitt trigger compatible
+	 *		0x04000 (1 << 14) - 47k Pull Up
+	 *		0x02000 (1 << 13) - PUE - (Pull up) enabled
+	 *		0x03000 (1 << 12) - PKE - (Keeper) enabled
+	 *		0x00040 (1 << 6)  - Low Speed (<50MHz)
+	 *		0x00018 (3 << 3)  - Drive Strength 80 Ohm
+	 *		0x00001 (1 << 0)  - Fast slew rate
+	 */
 	usdhc2 {
 		pinctrl_usdhc2_1: usdhc2grp-1 {
 			fsl,pins = <
-				MX6QDL_PAD_SD2_CMD__SD2_CMD    0x17059
-				MX6QDL_PAD_SD2_CLK__SD2_CLK    0x10059
-				MX6QDL_PAD_SD2_DAT0__SD2_DATA0 0x17059
-				MX6QDL_PAD_SD2_DAT1__SD2_DATA1 0x17059
-				MX6QDL_PAD_SD2_DAT2__SD2_DATA2 0x17059
-				MX6QDL_PAD_SD2_DAT3__SD2_DATA3 0x17059
-				MX6QDL_PAD_NANDF_D4__SD2_DATA4 0x17059
-				MX6QDL_PAD_NANDF_D5__SD2_DATA5 0x17059
-				MX6QDL_PAD_NANDF_D6__SD2_DATA6 0x17059
-				MX6QDL_PAD_NANDF_D7__SD2_DATA7 0x17059
+				MX6QDL_PAD_SD2_DAT0__SD2_DATA0	0x17059
+				MX6QDL_PAD_SD2_DAT1__SD2_DATA1	0x17059
+				MX6QDL_PAD_SD2_DAT2__SD2_DATA2	0x17059
+				MX6QDL_PAD_SD2_DAT3__SD2_DATA3	0x17059
+				//MX6QDL_PAD_NANDF_D4__SD2_DATA4	0x17059
+				//MX6QDL_PAD_NANDF_D5__SD2_DATA5	0x17059
+				//MX6QDL_PAD_NANDF_D6__SD2_DATA6	0x17059
+				//MX6QDL_PAD_NANDF_D7__SD2_DATA7	0x17059
+				MX6QDL_PAD_SD2_CMD__SD2_CMD		0x17059
+				MX6QDL_PAD_SD2_CLK__SD2_CLK		0x10059
+				MX6QDL_PAD_GPIO_4__SD2_CD_B		0x17059
 			>;
 		};
-
+		/*
 		pinctrl_usdhc2_2: usdhc2grp-2 {
 			fsl,pins = <
 				MX6QDL_PAD_SD2_CMD__SD2_CMD    0x17059
@@ -1748,8 +1862,10 @@
 				MX6QDL_PAD_SD2_DAT3__SD2_DATA3 0x17059
 			>;
 		};
+		 */
 	};
-
+	
+	/*
 	usdhc3 {
 		pinctrl_usdhc3_1: usdhc3grp-1 {
 			fsl,pins = <
@@ -1766,7 +1882,7 @@
 			>;
 		};
 
-		pinctrl_usdhc3_1_100mhz: usdhc3grp-1-100mhz { /* 100Mhz */
+		pinctrl_usdhc3_1_100mhz: usdhc3grp-1-100mhz { // 100Mhz
 			fsl,pins = <
 				MX6QDL_PAD_SD3_CMD__SD3_CMD 0x170B9
 				MX6QDL_PAD_SD3_CLK__SD3_CLK 0x100B9
@@ -1781,7 +1897,7 @@
 			>;
 		};
 
-		pinctrl_usdhc3_1_200mhz: usdhc3grp-1-200mhz { /* 200Mhz */
+		pinctrl_usdhc3_1_200mhz: usdhc3grp-1-200mhz { // 200Mhz
 			fsl,pins = <
 				MX6QDL_PAD_SD3_CMD__SD3_CMD 0x170F9
 				MX6QDL_PAD_SD3_CLK__SD3_CLK 0x100F9
@@ -1807,23 +1923,29 @@
 			>;
 		};
 	};
-
+	*/
+	
+	/*
+	 *	USDHC4 - External (off module) SD card socket (8-bit)
+	 *	Re-ordered to match M300 schematic
+	 */	
 	usdhc4 {
 		pinctrl_usdhc4_1: usdhc4grp-1 {
 			fsl,pins = <
-				MX6QDL_PAD_SD4_CMD__SD4_CMD    0x17059
-				MX6QDL_PAD_SD4_CLK__SD4_CLK    0x10059
-				MX6QDL_PAD_SD4_DAT0__SD4_DATA0 0x17059
-				MX6QDL_PAD_SD4_DAT1__SD4_DATA1 0x17059
-				MX6QDL_PAD_SD4_DAT2__SD4_DATA2 0x17059
-				MX6QDL_PAD_SD4_DAT3__SD4_DATA3 0x17059
-				MX6QDL_PAD_SD4_DAT4__SD4_DATA4 0x17059
-				MX6QDL_PAD_SD4_DAT5__SD4_DATA5 0x17059
-				MX6QDL_PAD_SD4_DAT6__SD4_DATA6 0x17059
-				MX6QDL_PAD_SD4_DAT7__SD4_DATA7 0x17059
+				MX6QDL_PAD_SD4_DAT0__SD4_DATA0  0x17059
+				MX6QDL_PAD_SD4_DAT1__SD4_DATA1  0x17059
+				MX6QDL_PAD_SD4_DAT2__SD4_DATA2  0x17059
+				MX6QDL_PAD_SD4_DAT3__SD4_DATA3  0x17059
+				MX6QDL_PAD_SD4_DAT4__SD4_DATA4  0x17059
+				MX6QDL_PAD_SD4_DAT5__SD4_DATA5  0x17059
+				MX6QDL_PAD_SD4_DAT6__SD4_DATA6  0x17059
+				MX6QDL_PAD_SD4_DAT7__SD4_DATA7  0x17059
+				MX6QDL_PAD_NANDF_ALE__SD4_RESET 0x17059	// Goes to CD pin on socket
+				MX6QDL_PAD_SD4_CLK__SD4_CLK     0x10059
+				MX6QDL_PAD_SD4_CMD__SD4_CMD     0x17059
 			>;
 		};
-
+		/*
 		pinctrl_usdhc4_2: usdhc4grp-2 {
 			fsl,pins = <
 				MX6QDL_PAD_SD4_CMD__SD4_CMD    0x17059
@@ -1834,21 +1956,22 @@
 				MX6QDL_PAD_SD4_DAT3__SD4_DATA3 0x17059
 			>;
 		};
+		 */
 	};
-
+	/*
 	weim {
 		pinctrl_weim_cs0_1: weim_cs0grp-1 {
 			fsl,pins = <
 				MX6QDL_PAD_EIM_CS0__EIM_CS0_B   0xb0b1
 			>;
 		};
-
+		
 		pinctrl_weim_nor_1: weim_norgrp-1 {
 			fsl,pins = <
 				MX6QDL_PAD_EIM_OE__EIM_OE_B     0xb0b1
 				MX6QDL_PAD_EIM_RW__EIM_RW       0xb0b1
 				MX6QDL_PAD_EIM_WAIT__EIM_WAIT_B 0xb060
-				/* data */
+				// data
 				MX6QDL_PAD_EIM_D16__EIM_DATA16 0x1b0b0
 				MX6QDL_PAD_EIM_D17__EIM_DATA17 0x1b0b0
 				MX6QDL_PAD_EIM_D18__EIM_DATA18 0x1b0b0
@@ -1865,7 +1988,7 @@
 				MX6QDL_PAD_EIM_D29__EIM_DATA29 0x1b0b0
 				MX6QDL_PAD_EIM_D30__EIM_DATA30 0x1b0b0
 				MX6QDL_PAD_EIM_D31__EIM_DATA31 0x1b0b0
-				/* address */
+				// address
 				MX6QDL_PAD_EIM_A23__EIM_ADDR23 0xb0b1
 				MX6QDL_PAD_EIM_A22__EIM_ADDR22 0xb0b1
 				MX6QDL_PAD_EIM_A21__EIM_ADDR21 0xb0b1
@@ -1892,5 +2015,7 @@
 				MX6QDL_PAD_EIM_DA0__EIM_AD00   0xb0b1
 			>;
 		};
+		
 	};
+	 */
 };
