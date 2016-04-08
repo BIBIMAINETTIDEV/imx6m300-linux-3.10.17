@@ -1,0 +1,52 @@
+/*
+ * Copyright (C) 2015, Megger Instruments, Ltd.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ */
+
+//
+//	EPDC (Electronic Paper Display Controller) - no available on M300
+//
+&epdc {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_epdc_0>;
+	V3P3-supply = <&V3P3_reg>;
+	VCOM-supply = <&VCOM_reg>;
+	DISPLAY-supply = <&DISPLAY_reg>;
+	status = "disabled";
+};
+
+&ldb {
+	ipu_id = <0>;
+	sec_ipu_id = <0>;
+};
+
+//
+//	LVDS 7" (800x480) Disabled by default on M300
+//
+&mxcfb1 {
+	status = "disabled";
+};
+
+//
+//	HDMI - not available on M300
+//
+&mxcfb2 {
+	status = "disabled";
+};
+
+//
+//	Assume 4.3" parallel RGB as default on M300
+//
+&mxcfb3 {
+	status = "okay";
+};
+
+//
+//	Pixel Pipeline - needs to be enabled for graphics output
+//
+&pxp {
+	status = "okay";
+};
