@@ -134,11 +134,11 @@
 		compatible = "fsl,mxc_sdc_fb";
 		disp_dev = "ldb";
 		interface_pix_fmt = "RGB24";
-		mode_str ="LVDS7-800x480";
+		mode_str ="LDB-WVGA";
 		default_bpp = <24>;
 		int_clk = <0>;
 		late_init = <0>;
-		status = "disabled";
+		status = "okay";
 	};
 
 	mxcfb2: fb@1 {
@@ -385,15 +385,16 @@
 };
 
 &ldb {
-	ipu_id = <1>;
+	ipu_id = <0>;
 	disp_id = <1>;
 	ext_ref = <1>;
-	mode = "sep1";
+	mode = "sin0";
 	sec_ipu_id = <1>;
-	sec_disp_id = <0>;
+	sec_disp_id = <1>;
 	status = "okay";
 };
 
+/*
 //
 //	MIPI Camera Interface
 //

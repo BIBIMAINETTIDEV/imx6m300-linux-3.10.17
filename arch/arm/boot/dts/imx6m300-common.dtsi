@@ -28,7 +28,7 @@
 //	LVDS 7" (800x480) Disabled by default on M300
 //
 &mxcfb1 {
-	status = "disabled";
+	status = "okay";
 };
 
 //

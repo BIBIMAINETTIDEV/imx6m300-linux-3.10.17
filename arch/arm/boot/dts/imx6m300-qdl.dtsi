@@ -774,7 +774,12 @@
 					      "di0_div_3_5", "di1_div_3_5",
 					      "di0_div_7", "di1_div_7",
 					      "di0_div_sel", "di1_div_sel";
-				status = "disabled";
+				status = "okay";
+				lvds-channel@0 {
+					//reg = <0>;
+					crtcs = <&ipu1 0>;
+					status = "okay";
+				};
 			};
 			/*
 			 * Display Content Integrity Checker (DCIC)
