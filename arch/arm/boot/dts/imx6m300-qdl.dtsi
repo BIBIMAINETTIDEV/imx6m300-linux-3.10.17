@@ -909,10 +909,12 @@
 				compatible = "fsl,imx6q-fec";
 				reg = <0x02188000 0x4000>;
 				interrupts = <0 118 0x04 0 119 0x04>;
-				clocks = <&clks 117>, <&clks 117>, <&clks 190>;
-				clock-names = "ipg", "ahb", "ptp";
+				clocks = <&clks 117>, <&clks 117>, <&clks 190>, <&clks 190>;
+				clock-names = "ipg", "ahb", "ptp", "enet_out";
+				local-mac-address = [00 0a 35 00 00 02];
 				status = "disabled";
 			};
+
 			/*
 			 * Media Local Bus
 			 */
@@ -1016,6 +1018,20 @@
 				reg = <0x021a8000 0x4000>;
 				interrupts = <0 38 0x04>;
 				clocks = <&clks 127>;
+				status = "disabled";
+			};
+
+			/*
+			 * I2C4 is available; on the carrier board it goes to camera
+			 * interface
+			 */
+			i2c4: i2c@021f8000 {
+				#address-cells = <1>;
+				#size-cells = <0>;
+				compatible = "fsl,imx6q-i2c", "fsl,imx21-i2c";
+				reg = <0x021f8000 0x4000>;
+				interrupts = <0 35 0x04>;
+				clocks = <&clks 116>;
 				status = "disabled";
 			};
 
@@ -1257,7 +1273,9 @@
 				MX6QDL_PAD_ENET_MDC__ENET_MDC         0x1b0b0
 				MX6QDL_PAD_ENET_MDIO__ENET_MDIO	      0x1b0b0
 				MX6QDL_PAD_ENET_RX_ER__ENET_RX_ER     0x1b0b0
-				MX6QDL_PAD_ENET_REF_CLK__ENET_TX_CLK  0x1b0b0
+				// See imx6m300.dtsi
+				// MX6QDL_PAD_ENET_REF_CLK__GPIO1_IO23
+				//MX6QDL_PAD_ENET_REF_CLK__ENET_TX_CLK  0x1b0b0
 				MX6QDL_PAD_GPIO_16__ENET_REF_CLK      0x4001b0a8
 			>;
 		};
@@ -1748,20 +1766,20 @@
 		};
 	};
 	
-	usbh1 {
+	/*usbh1 {
 		pinctrl_usbh1_1: usbh1grp-1 {
 			fsl,pins = <
 				MX6QDL_PAD_EIM_D30__USB_H1_OC	0x17059
 				MX6QDL_PAD_EIM_D31__USB_H1_PWR	0x17059
 			>;
 		};
-	};
+	};*/
 
 	usbotg {
 		pinctrl_usbotg_1: usbotggrp-1 {
 			fsl,pins = <
-				MX6QDL_PAD_EIM_D21__USB_OTG_OC  0x17059
-				MX6QDL_PAD_EIM_D22__USB_OTG_PWR 0x17059
+				//MX6QDL_PAD_EIM_D21__USB_OTG_OC  0x17059
+				//MX6QDL_PAD_EIM_D22__USB_OTG_PWR 0x17059
 				MX6QDL_PAD_GPIO_1__USB_OTG_ID   0x17059
 			>;
 		};

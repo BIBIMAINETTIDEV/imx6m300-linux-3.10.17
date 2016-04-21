@@ -46,18 +46,29 @@
 			regulator-always-on;
 		};
 		
-		reg_usb_h1_vbus: reg_usb_h {
+		/*reg_usb_h1_vbus: reg_usb_h {
 			regulator-min-microvolt = <5000000>;
 			regulator-max-microvolt = <5000000>;
 			regulator-boot-on;
 			regulator-always-on;
+		};*/
+		reg_usb_h1_vbus: usb_h1_vbus {
+			compatible = "regulator-fixed";
+			regulator-name = "usb_h1_vbus";
+			regulator-min-microvolt = <5000000>;
+			regulator-max-microvolt = <5000000>;
+			gpio = <&gpio3 31 0>;
+			startup-delay-us = <70000>;
+			enable-active-high;
 		};
 		
-		reg_usb_otg_vbus: reg_usb_otg {
+		reg_usb_otg_vbus: usb_otg_vbus {
+                        compatible = "regulator-fixed";
+                        regulator-name = "usb_otg_vbus";
 			regulator-min-microvolt = <5000000>;
 			regulator-max-microvolt = <5000000>;
-			regulator-boot-on;
-			regulator-always-on;
+			gpio = <&gpio3 22 0>;
+			enable-active-high;
 		};
 	};
 
@@ -194,7 +205,7 @@
 	lcd@0 {
 		compatible = "fsl,lcd";
 		ipu_id = <0>;
-		disp_id = <0>;
+		disp_id = <1>;
 		default_ifmt = "RGB24";
 		pinctrl-names = "default";
 		pinctrl-0 = <&pinctrl_ipu1_1>;
@@ -283,7 +294,21 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_enet_1>;
 	phy-mode = "rmii";
+	phy-connection-type = "rmii";
+	phy-handle = <&ethphy1>;
 	status = "okay";
+	mdio {
+		#address-cells = <1>;
+		#size-cells    = <0>;
+		ethphy1: ethernet-phy@0 {
+			compatible = "micrel,ksz8081";
+			device_type = "ethernet-phy";
+			reg = <0>;
+			interrupt-parent = <&gpio1>;
+			interrupts = <23 2>;
+			//irq-gpio = <&gpio1 23 0>;
+			};
+		};
 };
 
 //
@@ -335,7 +360,7 @@
 };
 
 //
-//	I2C Port 4
+//	I2C Port 4 goes to CAMERA interface address 0
 //
 &i2c4 {
         clock-frequency = <100000>;
@@ -379,6 +404,8 @@
 				//MX6QDL_PAD_GPIO_9__GPIO1_IO09 0x80000000
 				//MX6QDL_PAD_GPIO_1__WDOG2_B 0x80000000
 				//MX6QDL_PAD_GPIO_2__GPIO1_IO02 0x80000000
+				// The following could be used for KSZ8081 INT
+				MX6QDL_PAD_ENET_REF_CLK__GPIO1_IO23   0x80000000
 			>;
 		};
 	};
@@ -476,8 +503,9 @@
 //
 &usbh1 {
 	vbus-supply = <&reg_usb_h1_vbus>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_usbh1_1>;
+	//pinctrl-names = "default";
+	//pinctrl-0 = <&pinctrl_usbh1_1>;
+        //disable-over-current;
 	status = "okay";
 };
 

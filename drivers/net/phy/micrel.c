@@ -141,6 +141,19 @@ static int ks8051_config_init(struct phy_device *phydev)
 	return rc < 0 ? rc : 0;
 }
 
+static int ksz8081_config_init(struct phy_device *phydev)
+{
+	int regval;
+
+	// Override strap RMII configuration
+	regval = phy_read(phydev, MII_KSZPHY_OMSO);
+	regval &= 0xFC;
+	regval |= KSZPHY_OMSO_RMII_OVERRIDE;
+	phy_write(phydev, MII_KSZPHY_OMSO, regval);
+
+	return 0;
+}
+
 #define KSZ8873MLL_GLOBAL_CONTROL_4	0x06
 #define KSZ8873MLL_GLOBAL_CONTROL_4_DUPLEX	(1 << 6)
 #define KSZ8873MLL_GLOBAL_CONTROL_4_SPEED	(1 << 4)
@@ -257,7 +270,7 @@ static struct phy_driver ksphy_driver[] = {
 	.phy_id_mask	= 0x00fffff0,
 	.features	= (PHY_BASIC_FEATURES | SUPPORTED_Pause),
 	.flags		= PHY_HAS_MAGICANEG | PHY_HAS_INTERRUPT,
-	.config_init	= kszphy_config_init,
+	.config_init	= ksz8081_config_init,
 	.config_aneg	= genphy_config_aneg,
 	.read_status	= genphy_read_status,
 	.ack_interrupt	= kszphy_ack_interrupt,
